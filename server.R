@@ -281,7 +281,7 @@ shinyServer(function(input,output,clientData,session) {
   ## a plotly graph output for AAL/Payroll is created here using aal and act_sal variables in this file
   output$aal_payroll <- renderPlotly({
     plot_ly(
-      x = seq(input$ea,max_age),y = 100 * (aal()[1:(length(age))] / act_sal()),name = 'AAL/Payroll',mode = 'markers+lines'
+      x = seq(input$ea,input$retire),y = 100 * (aal()[1:(length(age))] / act_sal()),name = 'AAL/Payroll',mode = 'markers+lines'
     ) %>%
       layout(
         xaxis = list(title = 'Age',ticks = 'outside'),
@@ -447,8 +447,8 @@ shinyServer(function(input,output,clientData,session) {
         xaxis = list(title = 'Discount Rate (%)',ticks = 'outside'),
         yaxis = list(title = 'Funding Ratio (%)',ticks = 'outside')
       ) %>%
-      add_trace(y = as.numeric(funding_ratio_dr('PUC') ### funding_ratio_dr defined above is used with the cost method PUC
-                * 100),name = 'PUC') %>%
+      add_trace(x = seq(2,10,0.25),y = as.numeric(funding_ratio_dr('PUC') ### funding_ratio_dr defined above is used with the cost method PUC
+                * 100),mode = 'markers+lines',name = 'PUC') %>%
       layout(
         # An annotation is made in the plotly graph to indicate median asset condition
         annotations =
@@ -539,8 +539,8 @@ shinyServer(function(input,output,clientData,session) {
         xaxis = list(title = 'Discount Rate (%)',ticks = 'outside'),
         yaxis = list(title = 'ARC/Payroll',ticks = 'outside')
       ) %>%
-      add_trace(y = as.numeric(arc_dr('PUC')) ### arc_dr defined above is used with the cost method PUC
-                / total_pay() * 100,name = 'PUC') %>%
+      add_trace(x = seq(2,10,0.25),y = as.numeric(arc_dr('PUC')) ### arc_dr defined above is used with the cost method PUC
+                / total_pay() * 100,mode = 'markers+lines',name = 'PUC') %>%
       layout(
         # An annotation is made in the plotly graph to indicate median asset condition
         annotations =
@@ -609,8 +609,8 @@ shinyServer(function(input,output,clientData,session) {
         xaxis = list(title = 'Salary Growth Rate (%)',ticks = 'outside'),
         yaxis = list(title = 'Funding Ratio (%)',ticks = 'outside')
       ) %>%
-      add_trace(y = as.numeric(funding_ratio_sgr('PUC') ### funding_ratio_sgr defined above is used with the cost method PUC
-      * 100),name = 'PUC') %>%
+      add_trace(x = seq(2,10,0.25),y = as.numeric(funding_ratio_sgr('PUC') ### funding_ratio_sgr defined above is used with the cost method PUC
+      * 100),mode = 'markers+lines',name = 'PUC') %>%
       layout(
         # An annotation is made in the plotly graph to indicate median asset condition
         annotations = list(
@@ -695,8 +695,8 @@ shinyServer(function(input,output,clientData,session) {
         xaxis = list(title = 'Salary Growth Rate (%)',ticks = 'outside'),
         yaxis = list(title = 'ARC/Payroll',ticks = 'outside')
       ) %>%
-      add_trace(y = as.numeric(arc_sgr('PUC') ### arc_sgr defined above is used with the cost method PUC 
-        / total_pay() * 100),name = 'PUC') %>%
+      add_trace(x = seq(2,10,0.25),y = as.numeric(arc_sgr('PUC') ### arc_sgr defined above is used with the cost method PUC 
+        / total_pay() * 100),mode = 'markers+lines',name = 'PUC') %>%
       layout(
         # An annotation is made in the plotly graph to indicate median asset condition
         annotations = list(

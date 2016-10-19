@@ -482,7 +482,7 @@ get_vesting_cost <- function(ea,retire,i,a_sgr,cola,afc,bf,mort,vesting) {
 ###############################################################################
 get_term_cost <- function(ea,retire,i,a_sgr,sgr,cola,afc,bf,mort,vesting) {
   rpmx <- get_rpmx(ea,retire,mort)
-  rpmx <- c(rpmx[2:length(rpmx)],1)
+    rpmx <- c(rpmx[2:length(rpmx)],1)
   vc <- get_vesting_cost(ea,retire,i,a_sgr,cola,afc,bf,mort,vesting)
   # product of vesting cost, termination rate, probablity to live to 65 and discount vector
   tc <- vc * get_qxt(ea,retire) * rpmx * get_vrx(ea,retire,i)
@@ -637,6 +637,7 @@ get_AAL <- function(ea,retire,i,a_sgr,sgr,cola,afc,bf,cm,mort,vesting) {
   else
     # AAL for PUC = (rPVFBx + pvtc) * (years of service/ years to retirement)
     aal <- k * ((yos_xy) / (age[length(age)] - age[1]))
+  #return(c(aal,get_rPVFBx_after_r(ea,retire,i,a_sgr,sgr,cola,afc,bf,mort)))
   return(c(aal,get_rPVFBx_after_r(ea,retire,i,a_sgr,sgr,cola,afc,bf,mort)))
 }
 
@@ -737,7 +738,7 @@ get_ARC <-
     pop<-as.vector(pop)[1:length(age)]
     # to check discount rate - growth rate is 0 then set variable new_pgr value to avoid spikes 
     # in the discount rate sensitivity graphs for ARC
-    new_pgr<-ifelse(i-pgr<=0,0.004999,0)
+    new_pgr<-ifelse(i-pgr==0,0.04999,0)
     # get normal cost
     nc<- get_NC(ea,retire,i,a_sgr,sgr,cola,afc,bf,cm,mort,vesting)
     # get AAL 
@@ -747,9 +748,22 @@ get_ARC <-
     # get Unfunded liability
     uaal_pay<-sum((aal-median_asset)[1:length(age)])
     # get uaal for retirees
-    uaal_ret<-((aal[length(age)+1:(max_age-length(age)-ea+1)]-median_asset[length(age)+1:(max_age-length(age)-ea+1)])/get_am(ea,retire,i,amortization))*pop_ret
-    pmt<-((uaal_pay/(1-((1+pgr)/(1+i))^amortization))*(i-pgr+new_pgr))*((1+pgr)^(yos_xy))
+    uaal_ret<-((aal[length(age)+1:(max_age-length(age)-ea+1)]-
+                  median_asset[length(age)+1:(max_age-length(age)-ea+1)])/
+                 get_am(ea,retire,i,amortization))*pop_ret
+    pmt<- get_PMT(i,amortization,uaal_pay+uaal_ret)
     # compute ARC
-    arc<- c(pop * (nc + ((pmt/(i-pgr+new_pgr))*(1-((1+pgr)/(1+i))^yos_xy))),uaal_ret)
-    return((arc))
+    arc<- c(pop * (nc + ((pmt/(i-pgr+new_pgr))*(1-((1+pgr)/(1+i))^yos_xy))))
+    return(na.omit(arc))
   }
+
+
+###################### PMT Excel function #########################
+get_PMT <- function(rate, nper,pv, fv=0, type=0){
+  pmt = ifelse(rate!=0,
+               (rate*(fv+pv*(1+ rate)^nper))/((1+rate*type)*(1-(1+ rate)^nper)),
+               (-1*(fv+pv)/nper )
+  )
+  
+  return(-pmt)
+}
