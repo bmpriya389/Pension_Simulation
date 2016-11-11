@@ -441,7 +441,7 @@ shinyServer(function(input,output,clientData,session) {
     plot_ly(
       x = seq(2,10,0.25),
       y = as.numeric(funding_ratio_dr('EAN') ### funding_ratio_dr defined above is used with the cost method EAN
-                     * 100),
+                     * 100),borderwisth=6,
       name = 'EAN',mode ='markers+lines') %>%
       layout(
         xaxis = list(title = 'Discount Rate (%)',ticks = 'outside'),
@@ -533,7 +533,7 @@ shinyServer(function(input,output,clientData,session) {
   output$arc_dr <- renderPlotly({
     plot_ly(
       x = seq(2,10,0.25),y = as.numeric(arc_dr('EAN'))  ### arc_dr defined above is used with the cost method EAN
-      / total_pay() * 100,name = 'EAN',mode = 'markers+lines'
+      / total_pay() * 100,name = 'EAN',mode = 'markers+lines',boerderwidth=6,
     ) %>%
       layout(
         xaxis = list(title = 'Discount Rate (%)',ticks = 'outside'),
@@ -603,7 +603,7 @@ shinyServer(function(input,output,clientData,session) {
   output$fr_sgr <- renderPlotly({
     plot_ly(
       x = seq(2,10,0.25),y = as.numeric(funding_ratio_sgr('EAN')### funding_ratio_sgr defined above is used with the cost method EAN 
-        * 100),name ='EAN',mode = 'markers+lines'
+        * 100),name ='EAN',mode = 'markers+lines',borderwidth=6,
     ) %>%
       layout(
         xaxis = list(title = 'Salary Growth Rate (%)',ticks = 'outside'),
@@ -689,7 +689,7 @@ shinyServer(function(input,output,clientData,session) {
   output$arc_sgr <- renderPlotly({
     plot_ly(
       x = seq(2,10,0.25),y = as.numeric(arc_sgr('EAN'))### arc_sgr defined above is used with the cost method EAN 
-      / total_pay() * 100,name = 'EAN',mode = 'markers+lines'
+      / total_pay() * 100,name = 'EAN',mode = 'markers+lines',borderwidth=6,
     ) %>%
       layout(
         xaxis = list(title = 'Salary Growth Rate (%)',ticks = 'outside'),
