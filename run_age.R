@@ -35,7 +35,7 @@ library(xlsx)
 ##########################################################################
 
 library(doParallel)
-
+library(doSNOW)
 ############################# R COMMAND ##################################
 # rm() removes a variable from the workspace. A list of all the variables 
 # in the workspace is passed as a parameter to rm to clear all variables 
@@ -58,6 +58,11 @@ rm(list=ls())
 
 
 source("functions.R")
+
+#make & register core cluster
+cl <- makeCluster(3)
+registerDoSNOW(cl)
+
 
 min_age<-25
 
@@ -127,7 +132,7 @@ print(paste0("Start Time ",Sys.Date()," ",Sys.time()))
 runWorkBook<- createWorkbook();
 dat_sample<-NULL
 
-foreach(l1 in ca){    
+foreach(l1 = ca)%dopar%{    
   run<-0
   a1<-ifelse(l1==min_age,l1,subset(e_a,e_a<l1)) #value of entry age
   for(i in a1){
@@ -178,3 +183,4 @@ print(paste0("END Time ",Sys.Date()," ",Sys.time()))
 
 
 saveWorkbook(runWorkBook,"run_Age.xlsx") # writing the dataframe to an excel file
+stopCluster(cl)
