@@ -74,7 +74,6 @@ age_grp_labels<<- function(i_ea,age_limit){
 ################################## Population generation ####################################
 #############################################################################################
 
-############## Generate active members population ############
 generate_pop<-function(ea,retire,pop_type,pop_size,median){
   
   ### calling age information to get age bounds for population ###
@@ -98,9 +97,9 @@ generate_pop<-function(ea,retire,pop_type,pop_size,median){
   }
   
   ### truncating population exceeding the age range ###  
-    pop1<-pop1[pop1!=ea-1]
-    pop1<-pop1[pop1!=retire+1]
-    
+  pop1<-pop1[pop1!=ea-1]
+  pop1<-pop1[pop1!=retire+1]
+  
   ### return population vector to server.R ###
   return(pop1)
 }
@@ -753,7 +752,7 @@ get_ARC <-
                  get_am(ea,retire,i,amortization))*pop_ret
     pmt<- get_PMT(i,amortization,uaal_pay+uaal_ret)
     # compute ARC
-    arc<- c(pop * (nc + ((pmt/(i-pgr+new_pgr))*(1-((1+pgr)/(1+i))^yos_xy))))
+    arc<- c(pop * (nc + ((pmt/(i-pgr+new_pgr))*(1-((1+pgr)/(1+i))^yos_xy))), uaal_ret)
     return(na.omit(arc))
   }
 
