@@ -11,7 +11,7 @@ PUCrp2000<- subset(f,(f$`Mortality Table`=="RP2000_Employee_total" & f$`Cost Met
 
 write.csv(EANrp2014, "EANrp2014.csv", row.names=FALSE)
 write.csv(EANrp2010, "EANrp2010.csv", row.names=FALSE)
-write.csv(EANrp2010, "EANrp2000.csv", row.names=FALSE)
+write.csv(EANrp2000, "EANrp2000.csv", row.names=FALSE)
 write.csv(PUCrp2014, "PUCrp2014.csv", row.names=FALSE)
 write.csv(PUCrp2010, "PUCrp2010.csv", row.names=FALSE)
 write.csv(PUCrp2000, "PUCrp2000.csv", row.names=FALSE)
