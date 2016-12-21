@@ -125,7 +125,7 @@ shinyServer(function(input,output,clientData,session) {
   output$pop <- renderPlotly({
     plot_ly(
       x = populate(),opacity = 0.7,type = "histogram",name = "Current Employees", xbins =
-        list(start = input$ea,end = max_age),borderwidth=9
+        list(start = input$ea,end = max_age)
     ) %>%
       add_trace(x = populate_retirees(),name = "Retirees",type = "histogram") %>%
       layout(
@@ -188,7 +188,8 @@ shinyServer(function(input,output,clientData,session) {
       x = seq(input$ea,input$retire),
       y = (nc()/act_sal()) * 100,
       name = 'NC/Payroll',
-      mode = 'markers+lines'
+      mode = 'markers+lines',
+      type='scatter'
     ) %>%
       layout(
         xaxis = list(title = 'Age',ticks = 'outside'),
@@ -199,7 +200,7 @@ shinyServer(function(input,output,clientData,session) {
   ## a plotly graph output for NCis created here using nc
   output$nc <- renderPlotly({
     plot_ly(
-      x = seq(input$ea,input$retire),y = nc(),name = 'Normal Cost',mode = 'markers+lines'
+      x = seq(input$ea,input$retire),y = nc(),name = 'Normal Cost',mode = 'markers+lines',type='scatter'
     ) %>%
       layout(
         xaxis = list(title = 'Age',ticks = 'outside'),
@@ -281,7 +282,7 @@ shinyServer(function(input,output,clientData,session) {
   ## a plotly graph output for AAL/Payroll is created here using aal and act_sal variables in this file
   output$aal_payroll <- renderPlotly({
     plot_ly(
-      x = seq(input$ea,input$retire),y = 100 * (aal()[1:(length(age))] / act_sal()),name = 'AAL/Payroll',mode = 'markers+lines'
+      x = seq(input$ea,input$retire),y = 100 * (aal()[1:(length(age))] / act_sal()),name = 'AAL/Payroll',mode = 'markers+lines',type='scatter'
     ) %>%
       layout(
         xaxis = list(title = 'Age',ticks = 'outside'),
@@ -292,7 +293,7 @@ shinyServer(function(input,output,clientData,session) {
   ## a plotly graph output for AAL is created here using aal
   output$aal <- renderPlotly({
     plot_ly(
-      x = seq(input$ea,max_age),y = aal(),name = 'AAL',mode = 'markers+lines'
+      x = seq(input$ea,max_age),y = aal(),name = 'AAL',mode = 'markers+lines',type='scatter'
     ) %>%
       layout(
         xaxis = list(title = 'Age',ticks = 'outside'),
@@ -441,14 +442,14 @@ shinyServer(function(input,output,clientData,session) {
     plot_ly(
       x = seq(2,10,0.25),
       y = as.numeric(funding_ratio_dr('EAN') ### funding_ratio_dr defined above is used with the cost method EAN
-                     * 100),borderwisth=6,
-      name = 'EAN',mode ='markers+lines') %>%
+                     * 100),
+      name = 'EAN',mode ='markers+lines',type='scatter') %>%
       layout(
         xaxis = list(title = 'Discount Rate (%)',ticks = 'outside'),
         yaxis = list(title = 'Funding Ratio (%)',ticks = 'outside')
       ) %>%
       add_trace(x = seq(2,10,0.25),y = as.numeric(funding_ratio_dr('PUC') ### funding_ratio_dr defined above is used with the cost method PUC
-                * 100),mode = 'markers+lines',name = 'PUC') %>%
+                * 100),mode = 'markers+lines',name = 'PUC',type='scatter') %>%
       layout(
         # An annotation is made in the plotly graph to indicate median asset condition
         annotations =
@@ -533,14 +534,14 @@ shinyServer(function(input,output,clientData,session) {
   output$arc_dr <- renderPlotly({
     plot_ly(
       x = seq(2,10,0.25),y = as.numeric(arc_dr('EAN'))  ### arc_dr defined above is used with the cost method EAN
-      / total_pay() * 100,name = 'EAN',mode = 'markers+lines',boerderwidth=6,
+      / total_pay() * 100,name = 'EAN',mode = 'markers+lines',type='scatter'
     ) %>%
       layout(
         xaxis = list(title = 'Discount Rate (%)',ticks = 'outside'),
         yaxis = list(title = 'ARC/Payroll',ticks = 'outside')
       ) %>%
       add_trace(x = seq(2,10,0.25),y = as.numeric(arc_dr('PUC')) ### arc_dr defined above is used with the cost method PUC
-                / total_pay() * 100,mode = 'markers+lines',name = 'PUC') %>%
+                / total_pay() * 100,mode = 'markers+lines',name = 'PUC',type='scatter') %>%
       layout(
         # An annotation is made in the plotly graph to indicate median asset condition
         annotations =
@@ -603,14 +604,14 @@ shinyServer(function(input,output,clientData,session) {
   output$fr_sgr <- renderPlotly({
     plot_ly(
       x = seq(2,10,0.25),y = as.numeric(funding_ratio_sgr('EAN')### funding_ratio_sgr defined above is used with the cost method EAN 
-        * 100),name ='EAN',mode = 'markers+lines',borderwidth=6,
+        * 100),name ='EAN',mode = 'markers+lines',type='scatter'
     ) %>%
       layout(
         xaxis = list(title = 'Salary Growth Rate (%)',ticks = 'outside'),
         yaxis = list(title = 'Funding Ratio (%)',ticks = 'outside')
       ) %>%
       add_trace(x = seq(2,10,0.25),y = as.numeric(funding_ratio_sgr('PUC') ### funding_ratio_sgr defined above is used with the cost method PUC
-      * 100),mode = 'markers+lines',name = 'PUC') %>%
+      * 100),mode = 'markers+lines',name = 'PUC',type='scatter') %>%
       layout(
         # An annotation is made in the plotly graph to indicate median asset condition
         annotations = list(
@@ -689,14 +690,14 @@ shinyServer(function(input,output,clientData,session) {
   output$arc_sgr <- renderPlotly({
     plot_ly(
       x = seq(2,10,0.25),y = as.numeric(arc_sgr('EAN'))### arc_sgr defined above is used with the cost method EAN 
-      / total_pay() * 100,name = 'EAN',mode = 'markers+lines',borderwidth=6,
+      / total_pay() * 100,name = 'EAN',mode = 'markers+lines',type='scatter'
     ) %>%
       layout(
         xaxis = list(title = 'Salary Growth Rate (%)',ticks = 'outside'),
         yaxis = list(title = 'ARC/Payroll',ticks = 'outside')
       ) %>%
       add_trace(x = seq(2,10,0.25),y = as.numeric(arc_sgr('PUC') ### arc_sgr defined above is used with the cost method PUC 
-        / total_pay() * 100),mode = 'markers+lines',name = 'PUC') %>%
+        / total_pay() * 100),mode = 'markers+lines',name = 'PUC',type='scatter') %>%
       layout(
         # An annotation is made in the plotly graph to indicate median asset condition
         annotations = list(
@@ -718,44 +719,44 @@ shinyServer(function(input,output,clientData,session) {
 
   # a function to find ARC vector for different cost methods wrt different mortality rate tables
   # Each table is passed indiviually to the get_ARC function in functions.R 
-  
-  arc_mort <- function(cost_m) {
-    arc <- reactive({
-      sapply(seq(2,4,6), function(k)
-          get_ARC(
-            pop = table(c(populate(),populate_retirees())),
-            ea = input$ea,
-            retire = input$retire,
-            median_p = input$percent / 100,
-            median_dr = median_dr() / 100,
-            median_sgr = median_sgr() / 100,
-            i = drate() / 100,
-            a_sgr = a_sgr() / 100,
-            sgr = sgr() / 100,
-            pgr = payroll_gr()/100,
-            cola = input$cola / 100,
-            afc = as.numeric(input$afc),
-            bf = input$benefit_factor / 100,
-            cm = cost_m,
-            mort = k,
-            vesting = as.numeric(input$vest),
-            amortization = as.numeric(input$amort)
-          )
-        )
-    })
-    return(arc())
-  }
-  
-  ## Plotly graph for different ARC values under differnt mortality tables
-  output$arc_mort <- renderPlotly({
-    plot_ly(
-      x = seq(2,4,6),y = (as.numeric(arc_mort('EAN')) / total_pay()) * 100,name = 'EAN',mode = 'markers+lines'
-    ) %>%
-      layout(
-        xaxis = list(title = 'Mortality tables',ticks = 'outside'),
-        yaxis = list(title = 'ARC/Payroll',ticks = 'outside',title="This figure illustrates how the funding ratio will change if the mortality table is changed.")
-      ) %>%
-      add_trace(y = as.numeric(arc_mort('PUC')),name = 'PUC')
-  })
+  # 
+  # arc_mort <- function(cost_m) {
+  #   arc <- reactive({
+  #     sapply(seq(2,4,6), function(k)
+  #         get_ARC(
+  #           pop = table(c(populate(),populate_retirees())),
+  #           ea = input$ea,
+  #           retire = input$retire,
+  #           median_p = input$percent / 100,
+  #           median_dr = median_dr() / 100,
+  #           median_sgr = median_sgr() / 100,
+  #           i = drate() / 100,
+  #           a_sgr = a_sgr() / 100,
+  #           sgr = sgr() / 100,
+  #           pgr = payroll_gr()/100,
+  #           cola = input$cola / 100,
+  #           afc = as.numeric(input$afc),
+  #           bf = input$benefit_factor / 100,
+  #           cm = cost_m,
+  #           mort = k,
+  #           vesting = as.numeric(input$vest),
+  #           amortization = as.numeric(input$amort)
+  #         )
+  #       )
+  #   })
+  #   return(arc())
+  # }
+  # 
+  # ## Plotly graph for different ARC values under differnt mortality tables
+  # output$arc_mort <- renderPlotly({
+  #   plot_ly(
+  #     x = seq(2,4,6),y = (as.numeric(arc_mort('EAN')) / total_pay()) * 100,name = 'EAN',mode = 'markers+lines',type='scatter'
+  #   ) %>%
+  #     layout(
+  #       xaxis = list(title = 'Mortality tables',ticks = 'outside'),
+  #       yaxis = list(title = 'ARC/Payroll',ticks = 'outside',title="This figure illustrates how the funding ratio will change if the mortality table is changed.")
+  #     ) %>%
+  #     add_trace(y = as.numeric(arc_mort('PUC')),name = 'PUC',type='scatter')
+  # })
   
 })

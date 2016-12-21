@@ -306,13 +306,13 @@ shinyUI(
         ### graph output returned by server.R for the salary growth rate sensitivity test for ARC ###               
                plotlyOutput('arc_sgr')),
         absolutePanel(top = 630,left = 500,tags$footer(textOutput("asgr_disp_arc")))
-      ),
-    
-    ### sub panel for mortality table sensitivity tests ###
-    tabPanel('Mortality Tables',br(),
-        ### graph output returned by server.R for the mortality tables sensitivity test for ARC ###               
-        plotlyOutput('arc_mort')
       )
+    
+    # ### sub panel for mortality table sensitivity tests ###
+    # tabPanel('Mortality Tables',br(),
+    #     ### graph output returned by server.R for the mortality tables sensitivity test for ARC ###               
+    #     plotlyOutput('arc_mort')
+    #   )
     )
   )### end of navbarPage
   )### end of fluidPage
