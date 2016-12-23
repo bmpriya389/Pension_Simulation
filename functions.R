@@ -745,24 +745,20 @@ get_ARC <-
     # get assets
     median_asset<-get_median_asset(ea,retire, median_p,median_dr,median_sgr,a_sgr,cola,afc,bf,cm,mort,vesting)
     # get Unfunded liability
-    uaal_pay<-sum((aal-median_asset)[1:length(age)])
+    uaal_pay<-(aal-median_asset)[1:length(age)]
     # get uaal for retirees
     uaal_ret<-((aal[length(age)+1:(max_age-length(age)-ea+1)]-
                   median_asset[length(age)+1:(max_age-length(age)-ea+1)])/
                  get_am(ea,retire,i,amortization))*pop_ret
-    pmt<- get_PMT(i,amortization,uaal_pay+uaal_ret)
+    pmt<- get_PMT(i,amortization,uaal_pay)
     # compute ARC
-    arc<- c(pop * (nc + ((pmt/(i-pgr+new_pgr))*(1-((1+pgr)/(1+i))^yos_xy))), uaal_ret)
+    arc<- c(pop * (nc + ((pmt/(i-pgr+new_pgr))*(1-((1+pgr)/(1+i))^amortization))), uaal_ret)
     return(na.omit(arc))
   }
 
 
 ###################### PMT Excel function #########################
 get_PMT <- function(rate, nper,pv, fv=0, type=0){
-  pmt = ifelse(rate!=0,
-               (rate*(fv+pv*(1+ rate)^nper))/((1+rate*type)*(1-(1+ rate)^nper)),
-               (-1*(fv+pv)/nper )
-  )
-  
-  return(-pmt)
+  pmt = (rate*(fv+pv*(1+ rate)^nper))/((1+rate*type)*(1-(1+ rate)^nper))
+ return(-pmt)
 }
