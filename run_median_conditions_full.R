@@ -231,3 +231,4 @@ f$ADC[is.na(f$ADC)]<-0 #replacing NaNs with zeros
 save(f,file='Simulate_run_age.RData')  # saving the Rdata file
 
 print(paste0("Data generation END Time ",Sys.Date()," ",Sys.time()))
+    
