@@ -760,7 +760,6 @@ get_ARC <-
     return(na.omit(arc))
   }
 
-
 ###################### PMT Excel function #########################
 get_PMT <- function(rate, nper,pv, fv=0, type=0){
   pmt = (rate*(fv+pv*(1+ rate)^nper))/((1+rate*type)*(1-(1+ rate)^nper))
