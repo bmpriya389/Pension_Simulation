@@ -746,13 +746,9 @@ get_ARC <-
     median_asset<-get_median_asset(ea,retire, median_p,median_dr,median_sgr,a_sgr,cola,afc,bf,cm,mort,vesting)
      # get Unfunded liability
     uaal_pay<-(aal-median_asset)[1:length(age)]
-    # get uaal for retirees
-    uaal_ret<-((aal[length(age)+1:(max_age-length(age)-ea+1)]-
-                median_asset[length(age)+1:(max_age-length(age)-ea+1)])/
-                get_am(ea,retire,i,amortization))*pop_ret
-    pmt<- get_PMT(i,amortization,uaal_pay)
+       pmt<- get_PMT(i,amortization,uaal_pay)
     # compute ARC
-     arc<- c(pop * (nc + ((pmt/(i-pgr+new_pgr))*(1-(((1+pgr)/(1+i))^amortization)))), uaal_ret)
+    arc<- pop * (nc + ((pmt/(i-pgr+new_pgr))*(1-(((1+pgr)/(1+i))^amortization))))
     return(na.omit(arc))
   }
 
